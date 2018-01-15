@@ -1,0 +1,27 @@
+name: python3-dl
+channels:
+- conda-forge
+dependencies:
+- python>=3.6
+- dask
+- ipykernel
+- opencv
+- patsy
+- psycopg2
+- seaborn
+- spacy
+- pip:
+  - arrow
+  - flask-restplus
+  - graphviz
+  - keras
+  - numpy
+  - os_client_config
+  - pandas
+  - pydicom
+  - pymc3
+  - pymongo
+  - python-openstackclient
+  - sacred
+  - tensorflow-gpu
+  - xgboost
