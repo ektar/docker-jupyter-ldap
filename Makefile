@@ -1,6 +1,6 @@
 repo_path = ektar
 
-name = jupyter-ldap
+name = jupyterhub-ldap
 ver = $(shell cat VERSION)
 
 ifdef http_proxy

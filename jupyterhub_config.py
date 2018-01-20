@@ -266,7 +266,7 @@ c.JupyterHub.ssl_key = '/etc/ssl/jupyter/jupyter.key'
 # 
 # `%U` will be expanded to the user's username
 # c.Spawner.default_url = ''
-c.Spawner.default_url = '/tree/home/%U'
+c.Spawner.default_url = '/tree/home/users/%U'
 
 # Disable per-user configuration of single-user servers.
 # 

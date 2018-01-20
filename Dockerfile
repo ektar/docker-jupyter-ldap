@@ -1,21 +1,7 @@
-from ektar/conda-term:v1.0.3
+from ektar/conda-term:v1.0.4
 
 #RUN apt-get update && apt install -qy \
 # && rm -rf /var/lib/apt/lists/*
-
-# Install cuda driver 8.0
-# Links from https://gist.github.com/mjdietzx/0ff77af5ae60622ce6ed8c4d9b419f45
-RUN cd /tmp && \
-  wget -O /tmp/cuda-drv.deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb && \
-  dpkg -i /tmp/cuda-drv.deb && \
-  apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends cuda && \
-  rm -f /tmp/cuda-drv.deb
-
-# RUN cd /tmp && \
-#   wget -O cudnn.tgz http://developer.download.nvidia.com/compute/redist/cudnn/v6.0/cudnn-8.0-linux-x64-v6.0.tgz && \
-#   tar -xvf /tmp/cudnn.tgz -C /usr/local && \
-#   rm -f /tmp/cudnn.tgz
 
 # RUN mkdir -p /etc/pki/tls/certs/ && \
 #     ln -s /etc/ssl/certs/ca-certificates.crt /etc/pki/tls/certs/ca-bundle.crt
@@ -31,6 +17,7 @@ RUN openssl req -new -key jupyter.key -out jupyter.csr -batch
 RUN openssl x509 -req -days 365 -in jupyter.csr -signkey jupyter.key -out jupyter.crt
 RUN mkdir /etc/ssl/jupyter
 RUN mv jupyter.* /etc/ssl/jupyter/
+
 COPY jupyterhub_config.py /etc/jupyterhub_config.py
 
 COPY jupyterhub /etc/init.d
@@ -39,7 +26,9 @@ COPY jupyterhub /etc/init.d
 # RUN echo 'export LD_LIBRARY_PATH=/usr/local/cuda/lib:/usr/local/cuda/lib64:$LD_LIBRARY_PATH' >> /etc/profile
 # RUN LD_LIBRARY_PATH=/usr/local/cuda/lib:/usr/local/cuda/lib64:$LD_LIBRARY_PATH ldconfig
 
-# COPY startup.sh /startup.sh
+COPY startup-jupyter.sh /data/startup-jupyter.sh
+
+ENTRYPOINT ["/data/startup-jupyter.sh"]
 
 # # RUN mkdir -p /root/.keras
 # # RUN echo '{"image_data_format": "channels_last", "epsilon": 1e-07, "floatx": "float32", "backend": "tensorflow"}' > /root/.keras/keras.json
